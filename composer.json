@@ -1,0 +1,19 @@
+{
+    "name": "uucab/uucab",
+    "authors": [
+        {
+            "name": "Ilan Brazileiro",
+            "email": "contato@imm-tecnologia.com.br"
+        }
+    ],
+    "require": {
+    	"nfe/nfe": "^2.5"
+
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Uucab\\": "\\src"
+        }
+    }
+}

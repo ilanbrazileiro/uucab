@@ -1,0 +1,16 @@
+[07-Aug-2019 15:48:18 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[07-Aug-2019 17:31:31 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[08-Aug-2019 17:07:30 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[08-Aug-2019 17:11:00 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[09-Aug-2019 09:52:54 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[09-Aug-2019 17:06:28 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[09-Aug-2019 17:07:42 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[12-Aug-2019 17:37:21 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[13-Aug-2019 17:17:09 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[13-Aug-2019 17:17:36 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[14-Aug-2019 17:12:56 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[14-Aug-2019 17:13:35 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[15-Aug-2019 17:00:02 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[15-Aug-2019 17:04:08 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[16-Aug-2019 17:26:26 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
+[16-Aug-2019 17:27:47 America/Sao_Paulo] PHP Warning:  mysql_free_result(): supplied resource is not a valid MySQL result resource in /home/uucab/public_html/boletos/remessa/gerar_remessa.php on line 194
