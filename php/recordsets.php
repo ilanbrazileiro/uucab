@@ -139,7 +139,7 @@ $contv = mysql_num_rows($sitv);
 $sitb = mysql_query("SELECT * FROM faturas WHERE situacao = 'B' AND motivo_baixa = 'PAGA'")or die (mysql_error());
 $contb = mysql_num_rows($sitb);
 
-$sitc = mysql_query("SELECT * FROM faturas WHERE situacao = 'B' AND (motivo_baixa = 'CANDELADA' OR motivo_baixa = 'Cancelamento do boleto')")or die (mysql_error());
+$sitc = mysql_query("SELECT * FROM faturas WHERE situacao = 'B' AND (motivo_baixa = 'CANCELADA' OR motivo_baixa = 'Cancelamento do boleto')")or die (mysql_error());
 $contc = mysql_num_rows($sitc);
 
 ///// total do mes ////////////

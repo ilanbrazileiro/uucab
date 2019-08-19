@@ -18,28 +18,24 @@ if(!isset($_SESSION['login_session']) and !isset($_SESSION['senha_session'])){
 include "classes/conexao.php";
 include "classes/funcoes.class.php";
 include ("php/config.php");
-require "autoload.php";
+require 'vendor/autoload.php';
 
 $conecta = new recordset();
 
 $baixa = mysql_query("UPDATE faturas SET situacao = 'V' WHERE situacao != 'B' AND data_venci < DATE(NOW())");
 
-$testa = new Mensalidade();
-
-echo $testa->testaClasse();
-
-?>
-
-<!doctype html>
-<html><head>
-<meta charset="utf-8">
-<?php 
-
 $sqld = mysql_query("SELECT * FROM config") or die(mysql_error());
 $d = mysql_fetch_array($sqld);
+
+
+
+############################### INCLUINDO NOVO HEADER ##################################################
+include "header.php";
+
+
+/*
 ?>
 
-<title><?php echo $d['nome'] ?> - Gerênciador de Boletos</title>
 <link href="css/jquery-uicss.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/icons.css" />
 <link href="css/principal.css" rel="stylesheet" type="text/css">
@@ -167,14 +163,14 @@ tinymce.init({
 </div>
 
 
+*/
+?>
 
-<div id="cssmenu"><?php require ("menu.php");?></div>
+<?php require ("menu.php");?>
 
 
 
 
-
-<div style="clear:both"></div>
 
 <div id="contents">
 
@@ -451,10 +447,4 @@ tinymce.init({
 
 </div>
 
-<div id="rodape"><a href="http://www.imm-tecnologia.com.br" target="_blank" style="text-decoration: none; color: black;">IMM-Tecnologia</a> - Gerador de boletos - UUCAB - Contato-Suporte: ilanbrazileiro@gmail.com / contato@imm-tecnologia.com.br - V1.0.1</div>
-
-</div>
-
-</body>
-
-</html>
+<?php include "footer.php"; ?>
