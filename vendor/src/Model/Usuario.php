@@ -7,14 +7,232 @@ use \Uucab\Model;
 //use \Hcode\Mailer;
 
 class Usuario extends Model {
-	
-	
-	public function testaclasse()
-	{
-		return "Agora funcionou e estamos com composer!";
+
+	const SESSION = "Usuario";
+
+	// Retorna verdadeiro se o usuário for o administrador 1 (Root)
+	public function verificaAdm($id_usuario){
+
+		if ($id_usuario == 1){
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+	//Retorna todos os usuários, Sem excessões!
+	function listarTodos(){
+
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM usuario");
+
+		return (array)$results;
+
 	}
 
+	//Adiciona um usuário no banco
+	//Retorna o ultimo adicionado se tudo ok, Senão retorna o erro!
+	function adicionar($data){
+		
+		$sql = new Sql();
 
+		//tratando os dados para inserir no banco
+		$data['nome'] = addslashes($data['nome']);
+
+		$data['senha'] = $this->getPasswordHash($data['senha']);
+
+		//insere no banco
+		$result = $sql->query("INSERT INTO `usuario` (
+			`nome`,
+			`login`,
+			`senha`,
+			`hash`,
+			`sha1`,
+			`imagem`,
+			`funcao`,
+			`situacao`,
+			`email`
+		) VALUES (
+		'".$data['nome']."',
+		'".$data['login']."', 
+		'".$data['senha']."', 
+		'".$data['senha']."', 
+		'".$data['nome']."', 
+		'".$data['imagem']."', 
+		'".$data['funcao']."', 
+		'".$data['situacao']."', 
+		'".$data['email']."'
+		)");
+
+		if ($result){
+			//busca o ultimo adicionado
+			$novo_usuario = $sql->select("SELECT * FROM usuario WHERE id_usuario = LAST_INSERT_ID()");
+			//retorna ultimo adicionado
+			return (array)$novo_usuario;
+
+		} else {
+			return $result;
+		}
+	}
+
+	//Retorna o Usuario pelo ID
+	function get($id_usuario){
+		
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM usuario WHERE id_usuario = :id_usuario",[
+			':id_usuario' => $id_usuario
+		]);
+
+		return (array)$results[0];
+	}
+
+	function editar($dados){
+
+		//tratando os dados para inserir no banco
+		$dados['nome'] = addslashes($dados['nome']);
+
+		$sql = new Sql();
+
+		$results = $sql->query("UPDATE `uucab_boletos`.`usuario`
+				SET
+				`nome` = :nome,
+				`login` = :login,
+				`imagem` = :imagem,
+				`funcao` = :funcao,
+				`situacao` = :situacao,
+				`email` = :email				
+				WHERE `id_usuario` = :id_usuario",
+			[	
+				':id_usuario' 	=> $dados['id_usuario'],
+				':nome'			=> $dados['nome'],
+				':login'		=> $dados['login'],
+				':imagem'		=> $dados['imagem'],
+				':funcao'		=> $dados['funcao'],
+				':situacao'		=> $dados['situacao'],
+				':email'		=> $dados['email']
+			]);
+
+		return $results;
+	}
+
+	function deletar($dados){
+
+		$sql = new Sql();
+
+		$results = $sql->query("DELETE FROM usuario WHERE id_usuario = '".$dados['id']."'");
+
+		return $results;
+		
+	}
+
+	public static function getPasswordHash($password)
+	{
+
+		return password_hash($password, PASSWORD_DEFAULT, [
+			'cost'=>12
+		]);
+	}
+
+	public static function login($login, $password)//Loga Usuario na sessão
+	{
+
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM usuario WHERE email = :EMAIL OR login = :LOGIN", array(
+			":EMAIL"=>$login,
+			":LOGIN"=>$login
+		)); 
+
+		if (count($results) === 0)//Se existe o usuário
+		{
+			return false;
+			//throw new \Exception("Usuário inexistente.");
+		} else {
+			
+			$data = $results[0]; //Pega o resultado do select
+
+			if (password_verify($password, $data["senha"]) === true)	//Se senha Igual a digitada
+			{
+				$user = new Usuario();
+
+				$user->setData($data);
+
+				$_SESSION[Usuario::SESSION] = $user->getValues();
+
+				return true;
+			} else {
+				return false;
+			}//FIM SENHA IGUAL
+
+		}//FIM SE EXISTE USUARIO
+
+	}//FIM DA FUNÇÃO
+
+	public static function logout()//Desloga do admin
+	{
+
+		$_SESSION[Usuario::SESSION] = NULL;
+		unset($_SESSION['login_session']);
+		unset($_SESSION['senha_session']);
+
+	}
+
+	public function getUserImage(){//pega a imagem do usuário pelo login
+
+		$login = $_SESSION['login_session'];
+
+		$sql = new Sql();
+
+		$result = $sql->select("SELECT * FROM usuario WHERE login = :login OR email = :login",
+		[
+			":login"=>$login
+		]);
+
+		if ($result[0]['imagem'] != ''){
+
+			$imagem = $result[0]['imagem'];
+
+		} else {
+
+			$imagem = 'res/img/usuario.jpg';
+		}
+
+		return $imagem;
+
+	}
+
+	public function getUserLogin(){//retorna o login de quem está logado
+
+		$login = $_SESSION['login_session'];
+
+		return $login;
+
+	}
+
+	public static function verificaLogin(){//Verifica se o usuário é administrador do sistema
+
+		$login = $_SESSION['login_session'];
+
+		$sql = new Sql();
+
+		$result = $sql->select("SELECT * FROM usuario WHERE login = :login OR email = :login",
+		[
+			":login"=>$login
+		]);
+
+		if ($result[0]['funcao'] == 'Administrador'){
+			
+			return true;
+
+		} else {
+
+			return false;
+
+		}//FIM DO IF
+
+	}//FIM DA FUNÇÃO
 
 	/*  ################ ARQUIVO ORIGINAL DO USUARIO ####################
 	const SESSION = "Usuario";

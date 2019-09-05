@@ -1820,24 +1820,6 @@ function gerarBoletoPorIntervalo($id_cliente, $data_venc, $define, $valor_postad
 
 }//FECHA FUNÇÃO 
 
-
-
-function tiraMoeda($valor){
-
-	$pontos = '.';
-
-	$virgula = ',';
-
-	$result = str_replace($pontos, "", $valor);
-
-	$result2 = str_replace($virgula, ".", $result);
-
-	return $result2;
-
-}
-
-
-
 function getEstadoCivil($estado_civil){
 
 	
@@ -2494,5 +2476,30 @@ function acertaInscricao(){
 	}
 }
 
+
+	function getUserImage(){
+
+		$login = $_SESSION['login_session'];
+
+		return $login;
+
+	}
+
+################# INICIO DAS FUNÇÔES DO NOVO LAYOUT
+
+function moedaParaBanco($valor){
+	$result = str_replace("R$ ", "", $valor);
+	return tiraMoeda($result);
+}
+
+function tiraMoeda($valor){
+	$pontos = '.';
+	$virgula = ',';
+
+	$result = str_replace($pontos, "", $valor);
+	$result2 = str_replace($virgula, ".", $result);
+
+	return $result2;
+}
 
 ?>

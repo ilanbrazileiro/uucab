@@ -1,39 +1,3 @@
-<?php 
-session_start();
-//se nao existir volta para a pagina do form de login
-if(!isset($_SESSION['login_session']) and !isset($_SESSION['senha_session'])){
-	header("Location:../index.php");
-	exit;		
-}
-
-//configurando a ordem das colunas
-$o = $_GET["o"];
-
-	if (isset($o) && $o == 0){
-	$ordem = 'DESC';
-	$o = 1; $part = '&o=0';
-	} else if ($o == 1) {
-	$ordem = 'ASC';
-	$o = 0;$part = '&o=1';
-	} else {
-	$ordem = 'DESC';
-	$o = 1;$part = '&o=0';
-	}
-	
-$campo = $_GET['campo'];
-if (empty($campo)){
-	$campo = 'matricula';
-	}
-$part .= '&campo='.$campo;
-
-$total_cadatros = mysql_query("SELECT COUNT(*) FROM cliente");
-while($array = mysql_fetch_array($total_cadatros)) {
-// Variável para capturar o campo "nome" no banco de dados
-$tc = $array[0];
-}
-
-?>
-<div id="conteudoform">
 <script type="text/javascript">
 
 if(!window.sendPost){
@@ -93,21 +57,166 @@ function NovaJanela(pagina,nome,w,h,scroll){
 	}
 window.name = "main";
 </script>
-<script src="js/jquery-1.10.2.js"></script>
-<script type="text/javascript" src="js/jquery.mask-money.js"></script>
-<script type="text/javascript" src="js/jquery.maskedinput.js"></script>
-<script type="text/javascript">
-    jQuery(function ($) {
-           	$("#cpf").mask("999.999.999-99");
-           	$("#cnpj").mask("99.999.999/9999-99");
-           	$("#cep").mask("99999-999");
-			$("#cep_dir").mask("99999-999");
-			$("#tel").mask("(99) 9999-9999");
-			$("#cel").mask("(99) 99999-9999");
- 
-        });
 
-</script>
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <i class="fa fa-users"></i> Lista de Clientes
+      <small>Lista de Clientes Simples</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="inicio.php?pg=inicio"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="inicio.php?pg=listaclientessimples"><i class="fa fa-users"></i> Clientes</a></li>
+      <li class="active">Listagem Simples</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+
+
+
+
+
+
+
+  	<div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Data Table With Full Features</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+              	<thead>
+                <tr>
+                  	<th>Matrícula</th>
+    			    <th>Diretor (a) Espíritual</span></th>
+				    <th>Presidente</th>
+				    <th>Centro / Terreiro</th>
+				    <th>Município do Centro</th>
+				    <th>Situação</th>
+				    <th>Grupo</th>
+				    <th>Valor</th>
+				    <th>Última Mensalidade Paga</th>
+				    <th>Editar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+
+                	<?php 
+                	$sql_query = mysql_query("SELECT * FROM cliente ORDER BY matricula DESC");
+
+// Cria um while para pegar as informações do BD
+while($array = mysql_fetch_array($sql_query)) {
+// Variável para capturar o campo "nome" no banco de dados
+$idgrupo = $array['id_grupo'];
+	
+	if ($array['situacao'] == "I"){/////////Verifica se cliente ISENTO, senão verifica ultima mensalidade
+		$ultima_mensalidade = 'ISENTO';
+		$verifica_atraso = '2';
+	} else {
+		$ultima_mensalidade = ultimaMensalidade($array['id_cliente']);
+		$verifica_atraso = verificaAtraso($ultima_mensalidade);	
+	}
+	
+if (empty($array['dir_culto']) || empty($array['cpfcnpj']) || empty($array['naturalidade']) || empty($array['rg_pres']) || empty($array['estadocivil']) || empty($array['estadocivil_pres']) || empty($array['profissao']) || empty($array['endereco']) || empty($array['end_dir']) || empty($array['bairro_dir']) || empty($array['bairro']) || empty($array['profissao_pres']) || empty($array['senha']) ||  empty($array['cep_dir']) || empty($array['rg']) || empty($array['corretor']) || empty($array['nome']) || empty($array['inscricao']) || empty($array['cidade']) || empty($array['natural_pres']) || empty($array['uf']) || empty($array['nascimento']) || empty($array['uf_dir'])){
+		echo "<tr style='color:red;'>";
+    }
+    {
+	    if (empty($array['dir_culto']) || empty($array['cpfcnpj'])){ 
+		    echo "<tr style='font-weight: bold; color:red;'>";
+	    }	
+}
+		
+        
+
+?>
+    <td align="center"><?php echo $array['matricula'] ?></td>
+    <td align="left"><?php echo $array['dir_culto']; ?> <?php
+    if ($array['subnick'] != ''){
+                      echo "(". $array['subnick']. ")";
+                    } ?></td>
+    <td align="left"><?php echo $array['nome']; ?></td>
+    <td align="left"><?php echo $array['centro']; ?><br><?php
+    if ($array['cnpj'] != ''){
+                      echo "CNPJ: ". $array['cnpj'];
+                    } ?></td>
+    <td align="left"><?php echo $array['cidade_dir']; ?>-<?php echo $array['uf_dir']; ?></td>
+    <td align="center"><?php echo getSituacao($array['situacao']); ?></td>
+    
+    <?php 
+		$dad = mysql_query("SELECT * FROM grupo WHERE id_grupo = '$idgrupo'");
+		$dado = mysql_fetch_array($dad);
+		if($dado['nomegrupo'] == ""){ $grupo = "AVULSO";
+		} else { $grupo = $dado['nomegrupo']; }
+	?>
+    <td align="center"><?php echo $grupo; ?></td>
+    <td align="center"><?php echo number_format($array['valor'],'2',',','.'); ?></td>
+    <td align="center" <?php if ($verifica_atraso == '1'){ echo "style='color:red;font-weight:bold;'";} ?> ><?php echo $ultima_mensalidade ?></td>
+    
+    <td align="right">
+                <div class="btn-group">
+            <a href="pg/editacliente.php?id=<?php echo $array['id_cliente'] ?>&p=<?php echo $p ?>" style="text-decoration:none;" 
+            class="btn btn-default" onclick="NovaJanela(this.href,'nomeJanela','1050','550','yes');return false" title="Editar">
+            <i class="icon-edit"></i></a>
+            
+            <?php 
+            /* DELETAR CLIENTE */
+            /* <a class="btn btn-default"
+            href="javascript:confirmar_cliente('?pg=listaclientes&deleta=cliente&id=<?php echo $array['id_cliente'] ?>&p=<?php echo $p ?>')"
+             style="text-decoration:none;" title="Excluir cadastro"> 
+           <i class="icon-trash"></i></a>
+  */ ?>
+            </div>
+    </td>
+    </tr>
+<?php } ?> 
+
+
+            
+            </tbody>
+                <tfoot>
+                <tr>
+                  <th>Matrícula</th>
+    			    <th>Diretor (a) Espíritual</span></th>
+				    <th>Presidente</th>
+				    <th>Centro / Terreiro</th>
+				    <th>Município do Centro</th>
+				    <th>Situação</th>
+				    <th>Grupo</th>
+				    <th>Valor</th>
+				    <th>Última Mensalidade Paga</th>
+				    <th>Editar</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+
+
+
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+
+
+
+
+
+
+
+  <div id="conteudoform">	
 <div id="entrada">
 <div id="cabecalho"><h2><i class="icon-user iconmd"></i> Listagem dos Clientes </h2></div>
 <div id="forms" style="display:table;padding-bottom:5px;">
@@ -345,7 +454,7 @@ echo "<a class=\"pag\" href=\"#\" onclick=\"sendPost('inicio.php?pg=listacliente
 ?>
 &nbsp;
 
-<select name="pg" onchange="sendPost('inicio.php?pg=listaclientessimples<?php echo $part;?>',{<?php echo $filtro; ?>}, this.value );" style="width: 60px;">          
+<select name="pg" onchange="sendPost('inicio.php?pg=listaclientessimples<?php echo $part;?>',{<?php echo $filtro; ?>}, this.value );" style="width: 50px;">          
 <option selected="selected"><?php echo $p; ?> </option>
 <?php
 // Cria um for() para exibir os 3 links antes da página atual
@@ -398,19 +507,14 @@ $idgrupo = $array['id_grupo'];
 		$verifica_atraso = verificaAtraso($ultima_mensalidade);	
 	}
 	
-if (empty($array['rg_pres']) ||  empty($array['end_dir']) || empty($array['bairro_dir']) || (($array['numero_dir']) =="") || empty($array['cidade_dir']) ||  empty($array['cep_dir']) || empty($array['uf_dir']) || empty($array['rg']) || empty($array['corretor']) || empty($array['nome']) || empty($array['cpf_pres']) || empty($array['inscricao']) || empty($array['senha']) ){
+if (empty($array['dir_culto']) || empty($array['cpfcnpj']) || empty($array['naturalidade']) || empty($array['rg_pres']) || empty($array['estadocivil']) || empty($array['estadocivil_pres']) || empty($array['profissao']) || empty($array['endereco']) || empty($array['end_dir']) || empty($array['bairro_dir']) || empty($array['bairro']) || empty($array['profissao_pres']) || empty($array['senha']) ||  empty($array['cep_dir']) || empty($array['rg']) || empty($array['corretor']) || empty($array['nome']) || empty($array['inscricao']) || empty($array['cidade']) || empty($array['natural_pres']) || empty($array['uf']) || empty($array['nascimento']) || empty($array['uf_dir'])){
 		echo "<tr style='color:red;'>";
     }
-    else if (empty($array['profissao']) || empty($array['natural_pres']) || empty($array['nascimento']) || empty($array['centro']) || empty($array['profissao_pres']) || empty($array['naturalidade']) || empty($array['estadocivil_pres']) || empty($array['estadocivil']) || empty($array['nasc_pres']) ){ 
-		    echo "<tr style='font-weight: bold; color:black;'>";
-	    }
-	    {
-	    if (empty($array['dir_culto']) || empty($array['cpfcnpj']) || empty($array['responsavel']) || empty($array['endereco']) || empty($array['bairro']) || (($array['numero']) =="")|| empty($array['cep']) || empty($array['cpfcnpj']) ||  empty($array['cidade']) || empty($array['uf']) || $array['cep'] == '-' || validaCpf($array['cpfcnpj']) === false){ 
+    {
+	    if (empty($array['dir_culto']) || empty($array['cpfcnpj'])){ 
 		    echo "<tr style='font-weight: bold; color:red;'>";
-	    }
-	    
+	    }	
 }
-
 		
         
 
@@ -479,7 +583,7 @@ echo "<a class=\"pag\" href=\"#\" onclick=\"sendPost('inicio.php?pg=listacliente
 ?>
 &nbsp;
 
-<select name="pg" onchange="sendPost('inicio.php?pg=listaclientessimples<?php echo $part;?>',{<?php echo $filtro; ?>}, this.value );" style="width: 60px;">          
+<select name="pg" onchange="sendPost('inicio.php?pg=listaclientessimples<?php echo $part;?>',{<?php echo $filtro; ?>}, this.value );" style="width: 50px;">          
 <option selected="selected"><?php echo $p; ?> </option>
 <?php
 // Cria um for() para exibir os 3 links antes da página atual
@@ -493,17 +597,49 @@ echo "<a class=\"pag\" href=\"#\" onclick=\"sendPost('inicio.php?pg=listacliente
 }
 ?>
 
-<div style="float: right;" class="coluna" style="width:500px;"> <fieldset>
-      <legend><strong> <i>ATENÇÃO!</i> Legenda dos dados acima:&nbsp;</strong></legend>
-      <span>
-        - Clientes que estão com o cadastro em <u>PRETO NORMAL</u> estão com todos os dados corretos.<br><br>
-        - Clientes que estão com o cadastro em <b><u> PRETO NEGRITO</u></b> estão com a falta dos dados:<br>
-        Naturalidade, Nascimento, Profissão, Estado Civil do Diretor Espiritual e Presidente, e Nome do Centro.<br><br>
-        - Clientes que estão com o cadastro em <span class="avisos"><u>VERMELHO</u></span> estão com a falta dos dados:<br>
-        Endereço, Bairro, Número, Municipio, UF e CEP do Centro, Nome do Presidente, RG do Diretor Espiritual, CPF e<br> RG do Presidente, Corretor, Data da Admissão e Senha do Cadastro Inicial.<br><br>
-        - Clientes que estão com o cadastro em <span class="avisos"><u><b>VERMELHO e NEGRITO</b></u></span> estão com a falta dos dados:<br>
-        Endereço, Bairro, Número, Municipio, UF e CEP de Correspôndencia, Nome do Diretor Espiritual, CPF inválido ou <br>em falta do preenchimento do CPF do Diretor Espiritual, Falta do Responsável Financeiro da fatura.<br><br>
-        
-       <span class="avisos"> OBS - Grau de Urgência:</span> Mesmo que um cadastro se enquadre em mais de uma opção disponível, ele prevelecerá <br>a de maior importância do dado. Sendo do maior para o menor em escala de urgência. <span class="avisos"><u><b>VERMELHO e NEGRITO</b></u></span><br> > <span class="avisos"><u>VERMELHO</u></span> e <b><u> PRETO NEGRITO</u></b>. Podendo ter mais de um caso de uma vez.
-  </span></fieldset></div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<?php include ("footer.php"); ?>
 
+<!-- DataTables -->
+<script src="res/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="res/admin/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="res/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="res/admin/plugins/fastclick/fastclick.js"></script>
+<!-- page script -->
+<script>
+  $(function () {
+    $('#example2').DataTable(
+        {
+            "language":
+             {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": 
+                  {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                  },
+                "oAria": 
+                  {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                  }
+              }
+        });
+  });
+</script>
+
+</body>
+</html>

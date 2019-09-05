@@ -961,9 +961,9 @@ function base64url_encode($data) {
 
 
 
-if(isset($_POST['lancafatperiodica']) && $_POST['id_grupo'] != "0"){
+if(isset($_POST['lancafatperiodica']) && $_POST['situacao'] != "0"){
 
-	$id_grupo	 	= $_POST['id_grupo'];
+	$situacao	 	= $_POST['situacao'];
 	$data_venc 		= $_POST['data_venci'];
 	$ref 			= $_POST['ref'];
 	$define 		= $_POST['define'];//Define qual valor Utilizar
@@ -976,7 +976,7 @@ if ($ref == 1){//GERA BOLETO COM REFERENCIA EM TEXTO (NÃO EXISTE O REF2)
 
 	
 		################ PEGA O CLIENTE ##############
-		$sql_cliente = mysql_query("SELECT * FROM cliente WHERE id_grupo = '$id_grupo'");
+		$sql_cliente = mysql_query("SELECT * FROM cliente WHERE situacao = '$situacao'");
 		$contador = 0;
 
 		while($select_cliente = mysql_fetch_array($sql_cliente)){	
@@ -1056,7 +1056,7 @@ if ($ref == 1){//GERA BOLETO COM REFERENCIA EM TEXTO (NÃO EXISTE O REF2)
 
 		
 
-		$sql_cliente = mysql_query("SELECT * FROM cliente WHERE id_grupo = '$id_grupo'");
+		$sql_cliente = mysql_query("SELECT * FROM cliente WHERE situacao = '$situacao'");
 
 		$contador = 0;
 
@@ -1124,7 +1124,7 @@ if ($ref == 1){//GERA BOLETO COM REFERENCIA EM TEXTO (NÃO EXISTE O REF2)
 
 		
 
-		$sql_cliente = mysql_query("SELECT * FROM cliente WHERE id_grupo = '$id_grupo'");
+		$sql_cliente = mysql_query("SELECT * FROM cliente WHERE situacao = '$situacao'");
 
 		$contador = 0;
 
@@ -1203,7 +1203,7 @@ if ($ref == 1){//GERA BOLETO COM REFERENCIA EM TEXTO (NÃO EXISTE O REF2)
 
 		
 
-		$sql_cliente = mysql_query("SELECT * FROM cliente WHERE id_grupo = '$id_grupo'");
+		$sql_cliente = mysql_query("SELECT * FROM cliente WHERE situacao = '$situacao'");
 
 		$contador = 0;
 

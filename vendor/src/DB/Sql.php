@@ -60,26 +60,23 @@ class Sql {
 
 
 	public function query($rawQuery, $params = array())
-
 	{
-
-
 
 		$stmt = $this->conn->prepare($rawQuery);
 
-
-
 		$this->setParams($stmt, $params);
-
-
 
 		$stmt->execute();
 
+		if ($stmt->rowCount() > 0) {
 
+			return true;
 
+		} else {
+
+			return $stmt->errorInfo();
+		}
 	}
-
-
 
 	//public function select($rawQuery, $params = array()):array
 	public function select($rawQuery, $params = array())
@@ -95,12 +92,15 @@ class Sql {
 
 
 
-		$stmt->execute();
+		if($stmt->execute()){
 
+ 		   	return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+ 		   	
+		}else{
 
+    		return $stmt->errorInfo();
 
-		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
+		}
 
 
 	}

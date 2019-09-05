@@ -8,6 +8,49 @@ if(isset($_GET['mensalidade']) && $_GET['mensalidade'] != ''){
 }
 
 ?>
+<?php /*
+<script language="JavaScript">
+    //VALIDAÇÃO DA DATA
+    function VerificaData(digData) {
+    var bissexto = 0;
+    var data = digData;
+    var tam = data.length;
+        if (tam == 10) 	{
+            var dia = data.substr(0,2)
+            var mes = data.substr(3,2)
+            var ano = data.substr(6,4)
+        if ((ano > 1900)||(ano < 2100)){
+            switch (mes)
+            {
+            case '01':
+            case '03':
+            case '05':
+            case '07':
+            case '08':
+            case '10':
+            case '12':
+                if  (dia <= 31)
+                {
+                return true;
+                }
+                break
+                case '04':
+                case '06':	
+                case '09':	
+                case '11':	
+                if  (dia <= 30) 
+                {
+                return true;
+                }
+                break
+                case '02':
+                // Validando ano Bissexto / fevereiro / dia // 				
+                if ((ano % 4 == 0) || (ano % 100 == 0) || (ano % 400 == 0)) 
+                { 						bissexto = 1; 					} 	
+                    if ((bissexto == 1) && (dia <= 29)) 
+                    { 
+                    return true;				 					} 					if ((bissexto != 1) && (dia <= 28)) 					{ 						return true; 					}								break									}		}	}		alert("A Data "+data+" é inválida!");	return false;}</script><body>Digite a data no seu nascimento:<form method="POST" action="" target="_self" name="frm"><INPUT type=text NAME="data" id="data" SIZE=10 MAXLENGTH=10 onBlur="VerificaData(this.value);"></form>   */?> 	
+
 
 <!doctype html>
 <html>
@@ -558,11 +601,10 @@ if ( isset( $_FILES["assinatura"]["name"] ) && $_FILES[ 'assinatura' ][ 'error' 
 	$valor			= $_POST['valor'];
 	$rg				= $_POST['rg'];
 	$inscricao		= formataDataInscricao($_POST['inscricao']);
-	$endereco		= $_POST['endereco'];
-	$nome 			= $_POST['nome'];
+	$endereco		= addslashes($_POST['endereco']);
 	$numero 		= $_POST['numero'];
-	$complemento    = $_POST['complemento'];
-	$bairro 		= $_POST['bairro'];
+	$complemento    = addslashes($_POST['complemento']);
+	$bairro 		= addslashes($_POST['bairro']);
 	$cidade 		= $_POST['cidade'];
 	$uf				= $_POST['uf'];
 	$telefone 		= $_POST['telefone'];
@@ -577,14 +619,14 @@ if ( isset( $_FILES["assinatura"]["name"] ) && $_FILES[ 'assinatura' ][ 'error' 
 	$situacao		= $_POST['situacao'];
 	$centro 		= addslashes($_POST['centro']);
 	$dir_culto		= addslashes($_POST['dir_culto']);
-	$end_dir		= $_POST['end_dir'];
-	$bairro_dir		= $_POST['bairro_dir'];
+	$end_dir		= addslashes($_POST['end_dir']);
+	$bairro_dir		= addslashes($_POST['bairro_dir']);
 	$cep_dir		= $_POST['cep_dir'];
 	$numero_dir		= $_POST['numero_dir'];
-	$complemento_dir = $_POST['complemento_dir'];
+	$complemento_dir = addslashes($_POST['complemento_dir']);
 	$uf_dir			= $_POST['uf_dir'];
 	$cidade_dir		= $_POST['cidade_dir'];
-	$corretor		= $_POST['corretor'];
+	$corretor		= addslashes($_POST['corretor']);
 	$venc  			= $_POST['venc'];
 	$impresso		= $_POST['impresso'];
 	$valor_anual    = $_POST['valor_anual'];
@@ -602,9 +644,9 @@ if ( isset( $_FILES["assinatura"]["name"] ) && $_FILES[ 'assinatura' ][ 'error' 
 	$natural_pres	= $_POST['natural_pres'];
 	$estadocivil	= $_POST['estadocivil'];
     $estadocivil_pres	= $_POST['estadocivil_pres'];
-    $profissao	    = $_POST['profissao'];
-    $profissao_pres	= $_POST['profissao_pres'];
-    $subnick		= $_POST['subnick'];
+    $profissao	    = addslashes($_POST['profissao']);
+    $profissao_pres	= addslashes($_POST['profissao_pres']);
+    $subnick		= addslashes($_POST['subnick']);
     $senha			= $_POST['senha'];
     $obs_pres		= addslashes($_POST['obs_pres']);
 	$email2			= $_POST['email2'];
@@ -617,7 +659,7 @@ if ( isset( $_FILES["assinatura"]["name"] ) && $_FILES[ 'assinatura' ][ 'error' 
 	$nacao			= addslashes($_POST['nacao']);
 	$obrig_feita			= addslashes($_POST['obrig_feita']);
 		
-	$responsavel	= $_POST['responsavel'];
+	$responsavel	= addslashes($_POST['responsavel']);
   
 $sql = mysql_query("UPDATE cliente SET id_grupo='$id_grupo', nome='$nome', cpfcnpj='$cpfcnpj', nascimento = '$nascimento', valor = '$valor',inscricao='$inscricao', valor_anual='$valor_anual', rg='$rg', endereco='$endereco', numero='$numero', complemento='$complemento', bairro='$bairro', cidade='$cidade', uf='$uf', telefone='$telefone', cep='$cep', email='$email', obs='$obs', bloqueado='$bloqueado', matricula='$matricula', celular='$celular', celular2='$celular2', entrega='$entrega', situacao='$situacao', centro='$centro', dir_culto='$dir_culto', end_dir='$end_dir', bairro_dir='$bairro_dir', cep_dir='$cep_dir', numero_dir='$numero_dir', complemento_dir='$complemento_dir', cidade_dir='$cidade_dir', uf_dir='$uf_dir', corretor='$corretor', venc='$venc', impresso='$impresso', cnpj='$cnpj', valor_doc='$valor_doc', filiacao_pai='$filiacao_pai', filiacao_mae='$filiacao_mae', naturalidade='$naturalidade', filiacaopai_pres ='$filiacaopai_pres', filiacaomae_pres ='$filiacaomae_pres', natural_pres='$natural_pres', cpf_pres ='$cpf_pres', rg_pres ='$rg_pres', nasc_pres ='$nasc_pres', natural_pres='$natural_pres', estadocivil_pres='$estadocivil_pres', estadocivil='$estadocivil', profissao ='$profissao', subnick ='$subnick', senha ='$senha', obs_pres ='$obs_pres', profissao_pres ='$profissao_pres', email2='$email2', rec_doc='$rec_doc', data_doc='$data_doc', pago_doc='$pago_doc', linha_trab='$linha_trab', iniciado='$iniciado', feitura='$feitura', nacao='$nacao', obrig_feita='$obrig_feita', 
 
@@ -880,9 +922,9 @@ if(isset($_GET['estornar'])){
 
     	</div>	
     </div>
-
+        
     <div class="coluna" style="width:260px;">Foto do Presidente:<br/>
-
+    
     	<input name="foto_pres" type="file" style="width:240px;" />
 
     </div>

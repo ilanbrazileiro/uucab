@@ -5,6 +5,14 @@ error_reporting(E_ALL);
 
 include "../classes/conexao.php";
 include "../classes/funcoes.class.php";
+include "../php/config.php";
+require "../vendor/autoload.php";
+
+use Uucab\Model\Usuario;
+
+$user = new Usuario();
+
+echo $user->getPasswordHash('admin');
 
 
 /*

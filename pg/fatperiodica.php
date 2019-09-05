@@ -293,25 +293,13 @@ $cont = mysql_num_rows($fat);
 
     Grupo de Clientes:<br/>
 
-    <select name="id_grupo">
-
-    	<option value="0">Selecione um grupo...</option>
-
-     <?php
-
-     $sql = mysql_query("SELECT * FROM grupo WHERE id_grupo != '1' ORDER BY id_grupo ASC")or die (mysql_error());
-
-	while($linha = mysql_fetch_array($sql)){
-
-	?>
-
-    <option value="<?php echo $linha['id_grupo'] ?> ">
-
-	<?php echo $linha['nomegrupo']; ?></option>
-
-    <?php } ?>
-
-  </select><br/>
+    <select name="situacao">
+      <option value="0">Selecione uma situação do cliente...</option>
+      <option value="V">VIVOS</option>
+      <option value="M">MORTOS</option>
+      <option value="A">AGUARDAR</option>
+      <option value="I">ISENTOS</option>
+    </select><br/>
 
 
 

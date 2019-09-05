@@ -147,7 +147,7 @@ $arquivo->insertDetalhe(array(
     'juros_de_um_dia'     => ($fatura['valor'] * $ver['juro'] / 100), // Valor do juros de 1 dia'
     'data_desconto'       => new DateTime($fatura['data_venci']),
     'valor_desconto'      => 0.0, // Valor do desconto
-    'prazo'               => $ver['dias'], // prazo de dias para o cliente pagar após o vencimento
+    'prazo'               => (int) $ver['dias'], // prazo de dias para o cliente pagar após o vencimento
     'taxa_de_permanencia' => '00', //00 = Acata Comissão por Dia (recomendável), 51 Acata Condições de Cadastramento na CAIXA
     'mensagem'            => '',
     'data_multa'          => new DateTime($fatura['data_venci']), // data da multa

@@ -384,3 +384,7 @@ function retira_mascara(cpf_cnpj) {
 	return cpf_cnpj.replace(/\./g,'').replace(/-/g,'').replace(/\//g,'')	
 }
 
+function testaJava(){
+  return 'Agora funcionou e de novo!';
+  }
+

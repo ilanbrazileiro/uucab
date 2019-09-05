@@ -1,7 +1,31 @@
 <?php 
 /// abre a sessao
-session_start(); 
+session_start();
+
+///////////INCLUDES
 include "../classes/conexao.php";
+include "../classes/funcoes.class.php";
+include "../php/config.php";
+require '../vendor/autoload.php';
+
+use Uucab\Model\Usuario;
+
+$user = new Usuario();
+
+if($user->login($_POST['login'], $_POST['senha'])){
+	// se existir registra a session com o login e senha e vai para a pagina_principal
+	$_SESSION['login_session'] = $_POST['login'];
+	$_SESSION['senha_session'] = $_POST['senha'];
+	header("Location:../inicio.php?pg=inicio");
+	// se nao existir destroi a sessao existente e manda a mensagen de erro para a pagina do form
+}else{
+	unset($_SESSION['login_session']);
+	unset($_SESSION['senha_session']);
+	header("location:../index.php?login_errado=erro");
+}
+
+
+/*
 /// pega o valor vindo do campo login
 $login = $_POST['login']; 
 /// pega o valor vindo do campo senha
@@ -25,5 +49,5 @@ if(mysql_num_rows($sql) == 1){
 	unset($_SESSION['senha_session']);
 	header("location:../index.php?login_errado=erro");
 }
-
+*/
 ?>

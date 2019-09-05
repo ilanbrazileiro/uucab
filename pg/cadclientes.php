@@ -494,6 +494,31 @@ function maskCNPJ(CNPJ){
 }	
 		
     </script>
+
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      <i class="fa fa-users"></i> Cadastro de Clientes
+      <small>clientes para o controle de mensalidades</small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="inicio.php?pg=inicio"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a href="inicio.php?pg=listaclientessimples"><i class="fa fa-dashboard"></i> Clientes</a></li>
+      <li class="active">Cadastro</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+
+
+
+
+
 <div id="entrada">
 <div id="cabecalho"><h2><i class="icon-user iconmd"></i> Cadastro de clientes</h2></div>
 <div id="forms">
@@ -826,3 +851,10 @@ function maskCNPJ(CNPJ){
 </div>
 </div>
 
+
+
+
+</section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

@@ -20,6 +20,12 @@ include "classes/funcoes.class.php";
 include ("php/config.php");
 require 'vendor/autoload.php';
 
+use Uucab\Model\Usuario;
+use Uucab\Model\Banco;
+
+$usuario = new Usuario();
+$bancos = new Banco();
+
 $conecta = new recordset();
 
 $baixa = mysql_query("UPDATE faturas SET situacao = 'V' WHERE situacao != 'B' AND data_venci < DATE(NOW())");
@@ -28,10 +34,17 @@ $sqld = mysql_query("SELECT * FROM config") or die(mysql_error());
 $d = mysql_fetch_array($sqld);
 
 
+include "php/recordsets.php";
 
-############################### INCLUINDO NOVO HEADER ##################################################
-include "header.php";
+				$endereco = $_SERVER['REQUEST_URI'];
 
+				/////////////////////// ALTERAR A SQL PARA VER TODOS OS BANCOS CADASTRADOS///////////
+
+##############FIM DO CODIGO ATIVAR BANCO
+
+################# INCLUINDO NOVO HEADER
+include "pg/views/header.php";
+################# FIM
 
 /*
 ?>
@@ -41,18 +54,10 @@ include "header.php";
 <link href="css/principal.css" rel="stylesheet" type="text/css">
 <link href="css/styles.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+
+
 <script type="text/javascript" src="js/jquery.js"></script>
 
-<?php 
-if(isset($_GET['pg']) && $_GET['pg'] == "inicio"){
-?>
-<script type="text/javascript" src="js/jquery.charts.js"></script>
-<?php } ?>
-<script type="text/javascript">
-	$(function (){
-		$("#estatistica").charts();
-	})
-</script>
 
 <script type="text/javascript" src="js/jquery.mask-money.js"></script>
 
@@ -124,33 +129,13 @@ tinymce.init({
 
 				
 
-				include "php/recordsets.php";
-
-				$endereco = $_SERVER['REQUEST_URI'];
-
-				/////////////////////// ALTERAR A SQL PARA VER TODOS OS BANCOS CADASTRADOS///////////
-
-				$res = mysql_query("SELECT * FROM bancos WHERE id_banco > '3' AND id_banco < '6'");
-
-                while($list = mysql_fetch_array($res)){ 
-
-				$situacao = $list["situacao"];
-
-				if($situacao == "1"){
-
-					$banco = $list['img'];	
-
-				}else{
-
-					$banco = $list["img2"];
-
-				}
+				
 
 				?>
 
                 
 
-<li><a href="<?php echo $endereco ?>&id_banco=<?php echo $list['id_banco'];?>&ativa=ok"><img src="img/<?php echo $banco ?>" width="80" height="61" class="logo-banco"></a></li>
+<li><a href="<?php echo $endereco ?>&id_banco=<?php echo $list['id_banco'];?>&ativa=ok"><img src="img/<?php echo $banco ?>" width="80" height="40" class="logo-banco"></a></li>
 
                 <?php } ?>            	    
 
@@ -181,21 +166,13 @@ tinymce.init({
     	<?php 
 
 		if(isset($_GET['pg']) && $_GET['pg'] == "inicio"){
-
-		include "pg/main.php";	
-
+			include "pg/main.php";	
 		}
-
 		elseif(isset($_GET['pg']) && $_GET['pg'] == "configuracoes"){
-
-		include "pg/configura.php";	
-
+			include "pg/configura.php";	
 		}
-
 		elseif(isset($_GET['pg']) && $_GET['pg'] == "banco"){
-
-		include "pg/banco.php";	
-
+			include "pg/banco.php";	
 		}
 
 		elseif(isset($_GET['pg']) && $_GET['pg'] == "numero"){
@@ -243,6 +220,11 @@ tinymce.init({
 		elseif(isset($_GET['pg']) && $_GET['pg'] == "listaclientesincompletos"){
 
 		include "pg/listaclientesincompletos.php";	
+
+		}
+		elseif(isset($_GET['pg']) && $_GET['pg'] == "agendamento"){
+
+		include "pg/agendamento.php";	
 
 		}
 
@@ -424,14 +406,30 @@ tinymce.init({
 		include "pg/relatorio.php";
 
 		}
-		
 		elseif(isset($_GET['pg']) && $_GET['pg'] == "listaclientesbanco"){
-
-		include "pg/listaclientesbanco.php";
-
+			include "pg/listaclientesbanco.php";
+		}
+		elseif(isset($_GET['pg']) && $_GET['pg'] == "listarespacos"){
+			include "pg/listarespacos.php";
+		}
+		elseif(isset($_GET['pg']) && $_GET['pg'] == "cadastrarespacos"){
+			include "pg/cadastrarespacos.php";
+		}
+		elseif(isset($_GET['pg']) && $_GET['pg'] == "editarespaco"){
+			include "pg/editarespaco.php";
 		}
 
-		else{
+		elseif(isset($_GET['pg']) && $_GET['pg'] == "listarusuarios"){
+			include "pg/listarusuarios.php";
+		}
+		elseif(isset($_GET['pg']) && $_GET['pg'] == "cadastrarusuarios"){
+			include "pg/cadastrarusuarios.php";
+		}
+		elseif(isset($_GET['pg']) && $_GET['pg'] == "editarusuario"){
+			include "pg/editarusuario.php";
+		}
+		
+		else {
 
 		echo "<h2> Esta página não existe.</h2>";
 
@@ -446,5 +444,3 @@ tinymce.init({
     </div>
 
 </div>
-
-<?php include "footer.php"; ?>
